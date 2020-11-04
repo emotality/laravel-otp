@@ -1,0 +1,42 @@
+{
+    "name": "emotality/laravel-otp",
+    "description": "A Laravel package to send OTP via email & SMS.",
+    "type": "library",
+    "keywords": [
+        "laravel",
+        "otp",
+        "email",
+        "sms"
+    ],
+    "license": "MIT",
+    "homepage": "https://github.com/emotality/laravel-otp",
+    "authors": [
+        {
+            "name": "Jean-Pierre Fourie",
+            "homepage": "https://emotality.com",
+            "email": "jp@emotality.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.2.5",
+        "ext-json": "*",
+        "illuminate/http": "^7.0|^8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Emotality\\OTP\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Emotality\\OTP\\OTPServiceProvider"
+            ],
+            "aliases": {
+                "PanaceaMobile": "Emotality\\OTP\\OTP"
+            }
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
