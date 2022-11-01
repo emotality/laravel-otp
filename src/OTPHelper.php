@@ -79,7 +79,7 @@ class OTPHelper
             $this->set($user);
         }
 
-        Mail::send(new \App\Mail\OTP($user));
+        Mail::to($user->{$config->email_column})->queue(new \App\Mail\OTP($user));
     }
 
     /**
@@ -199,5 +199,22 @@ class OTPHelper
         }
 
         return $this->user_model;
+    }
+
+    /**
+     * Validate OTP value in DB.
+     *
+     * @param \Illuminate\Foundation\Auth\User $user
+     * @param null $value
+     * @return bool
+     */
+    public function validateOtp(Authenticatable $user, $value = null) : bool
+    {
+        $config = $this->modelConfig($user);
+
+        return \Illuminate\Support\Facades\DB::table($user->getTable())
+            ->where('id', $user->id)
+            ->where($config->otp_column, $value)
+            ->exists();
     }
 }
