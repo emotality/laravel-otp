@@ -29,10 +29,41 @@ OTP::smsOrEmail($user);
 OTP::smsAndEmail($user);
 ```
 
+Validates if OTP was entered correctly:
+
+```php
+$status = OTP::validateOtp($user, $value);
+```
+
 If OTP was entered correctly, you can remove OTP from database:
 
 ```php
 OTP::clear($user);
+```
+## Usage
+
+Sample controller example:
+
+```php
+    public function verify_otp(Request $request)
+    {
+        $validated = $request->validate([
+            'otp'   => 'required|numeric|max_digits:6',
+        ]);
+        
+        $status = OTP::validateOtp(Auth::user(), $validated['otp']);
+
+        if ($status)
+        {
+            $status = 'Your email is now verified. Thank you.';
+            OTP::clear(Auth::user());
+            Auth::user()->markEmailAsVerified();     
+        } else {
+            $status = 'Wrong OTP. Please retry.';
+        }
+
+        return back()->with('status', $status);
+    }
 ```
 
 ## Providers
