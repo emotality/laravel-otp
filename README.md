@@ -11,6 +11,22 @@ A Laravel package to send OTP via email & SMS. Specify different models and thei
 1. `composer require emotality/laravel-otp`
 2. `php artisan vendor:publish --provider="Emotality\OTP\OTPServiceProvider"`
 3. Configure your `config/otp.php` file
+4. `php artisan make:mail OTP`
+5. `php artisan make:migration add_otp_to_users_table`
+6. Edit the migration file as follows:
+
+```php
+return new class extends Migration
+{
+    public function up()
+    {
+        Schema::table('users', function (Blueprint $table) {
+            $table->unsignedInteger('otp')->after('email')->nullable();
+        });
+    }
+};
+```
+7. `php artisan migrate`
 
 ## Usage
 
