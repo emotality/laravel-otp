@@ -79,7 +79,7 @@ class OTPHelper
             $this->set($user);
         }
 
-        Mail::send(new \App\Mail\OTP($user));
+        Mail::to($user->{$config->email_column})->send(new \App\Mail\OTP($user));
     }
 
     /**
